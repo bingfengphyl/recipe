@@ -34,7 +34,7 @@ template_dir = r'D:\02github\practice-demo\20250528_HTML'
 env = Environment(loader=FileSystemLoader(template_dir))
 env.filters['format_date'] = format_date_jinja
 template_file = '猪娃家一日三餐食谱 - 示例动态.html'
-output_dir = os.path.join(template_dir, 'output')
+output_dir = os.path.join(template_dir, 'docs')
 
 os.makedirs(output_dir, exist_ok=True)
 
