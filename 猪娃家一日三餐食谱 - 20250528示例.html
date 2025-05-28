@@ -1,0 +1,509 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猪娃一家定制食谱 | 孕期营养餐</title>
+    <link href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://s2.ssl.qhres2.com/static/56662140ef7d5d03.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --primary-light: #93c5fd;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #f59e0b;
+            --gray-light: #f3f4f6;
+            --gray-dark: #6b7280;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 15px 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+
+        .logo h1 {
+            margin: 0;
+            color: var(--primary-dark);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .date {
+            color: var(--gray-dark);
+            font-size: 0.85rem;
+        }
+
+        .family-avatars {
+            display: flex;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-light);
+            transition: transform 0.3s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .meal-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .meal-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+        }
+
+        .meal-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .meal-title {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .meal-time {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .meal-content {
+            padding: 15px;
+        }
+
+        .dish-card {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--gray-light);
+            padding-bottom: 15px;
+        }
+
+        .dish-card:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .dish-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 6px;
+            object-fit: cover;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .dish-info {
+            flex-grow: 1;
+        }
+
+        .dish-name {
+            margin: 0 0 8px 0;
+            color: var(--primary-dark);
+            font-size: 1.1rem;
+        }
+
+        .dish-desc {
+            color: var(--gray-dark);
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .dish-link {
+            display: inline-block;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 4px 8px;
+            border-radius: 18px;
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .dish-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .nutrition-info {
+            background-color: var(--gray-light);
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 15px;
+        }
+
+        .nutrition-title {
+            margin: 0 0 8px 0;
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .nutrition-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 8px;
+        }
+
+        .nutrition-item {
+            background-color: white;
+            padding: 4px 8px;
+            border-radius: 18px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nutrition-item i {
+            color: var(--primary-color);
+            font-size: 0.7rem;
+        }
+
+        .restrictions {
+            margin-top: 5px; /* 减少与上方内容的间距 */
+            background-color: skyblue;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center; /* 居中对齐 */
+        }
+
+        .restrictions-title {
+            margin: 0 0 10px 0;
+            color: var(--primary-dark);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .restrictions-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .restriction-item {
+            background-color: var(--gray-light);
+            padding: 4px 8px;
+            border-radius: 18px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .restriction-item i {
+            color: var(--danger-color);
+            font-size: 0.7rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: var(--gray-dark);
+            font-size: 0.85rem;
+            margin-top: 40px;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .date {
+                margin-top: 5px;
+            }
+
+            .dish-card {
+                flex-direction: column;
+            }
+
+            .dish-image {
+                width: 100%;
+                height: auto;
+                margin-bottom: 10px;
+            }
+        }
+
+        .meal-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px; /* 补偿第一个 meal-card 的 margin-top */
+        }
+
+        .meal-grid .meal-card {
+            flex: 1 1 calc(33.333% - 15px); /* 3列布局 */
+            min-width: 280px; /* 最小宽度防止过小 */
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 992px) {
+            .meal-grid .meal-card {
+                flex: 1 1 calc(50% - 10px); /* 2列布局 */
+            }
+        }
+
+        @media (max-width: 600px) {
+            .meal-grid {
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 10px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .meal-grid .meal-card {
+                flex: 0 0 calc(60% - 10px); /* 可调整卡片宽度适应手机 */
+                margin-right: 15px;
+            }
+
+            .meal-grid .meal-card:last-child {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-utensils"></i>
+                    <h1>猪娃家一日三餐食谱</h1>
+                </div>
+                <div class="date">2025年5月28日</div>
+                <div class="family-avatars">
+                    <img src="https://img.icons8.com/?size=100&id=82219&format=png&color=000000" alt="猪娃" class="avatar">
+                    <img src="https://img.icons8.com/?size=100&id=82433&format=png&color=000000" alt="猪娃老公" class="avatar">
+                    <img src="https://img.icons8.com/?size=100&id=82215&format=png&color=000000" alt="猪娃婆婆" class="avatar">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <p>为孕中期者、易胆囊炎者和肠胃溃疡患者特别设计</p>
+            <p>食谱设计原则：营养协调、易消化吸收 | 早午餐扎实有蛋白质、红肉 | 晚餐简单、量少、好消化</p>
+            <div class="restrictions">
+            <h3 class="restrictions-title"><i class="fas fa-exclamation-triangle"></i> 饮食禁忌</h3>
+            <div class="restrictions-list">
+                <div class="restriction-item"><i class="fas fa-ban"></i> 忌食辣椒</div>
+                <div class="restriction-item"><i class="fas fa-ban"></i> 忌食燕麦</div>
+                <div class="restriction-item"><i class="fas fa-ban"></i> 忌食椰蓉</div>
+                <div class="restriction-item"><i class="fas fa-ban"></i> 忌食黑鱼</div>
+                <div class="restriction-item"><i class="fas fa-ban"></i> 忌食高糖食物</div>
+                <div class="restriction-item"><i class="fas fa-ban"></i> 忌食鸡蛋</div>
+            </div>
+        </div>
+        </div>
+
+    </header>
+    <main class="container">
+        <div class="meal-grid">
+            <!-- 早餐 -->
+            <div class="meal-card">
+                <div class="meal-header">
+                    <h2 class="meal-title">早餐</h2>
+                    <div class="meal-time">8:10-8:40</div>
+                </div>
+                <div class="meal-content">
+                    <div class="dish-card">
+                        <div class="dish-info">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <h3 class="dish-name">山药红枣粥</h3>
+                                <a href="https://www.xiachufang.com/search/?keyword=%E5%B1%B1%E8%8D%AF%E7%BA%A2%E6%9E%A3%E7%B2%A5&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                            <p class="dish-desc">温和滋补，适合孕妇和肠胃敏感人群，富含膳食纤维和铁质。</p>
+                        </div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-info">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <h3 class="dish-name">清炒胡萝卜丝</h3>
+                                <a href="https://www.xiachufang.com/search/?keyword=%E6%B8%85%E7%82%92%E8%83%A1%E8%90%9D%E5%8D%9C&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                            <p class="dish-desc">清淡易消化，富含β-胡萝卜素，有助于增强免疫力。</p> 
+                        </div>
+                    </div>
+                    <div class="nutrition-info">
+                        <h4 class="nutrition-title">营养亮点</h4>
+                        <div class="nutrition-list">
+                            <div class="nutrition-item"><i class="fas fa-heart"></i> 补血益气</div>
+                            <div class="nutrition-item"><i class="fas fa-baby"></i> 孕期友好</div>
+                            <div class="nutrition-item"><i class="fas fa-leaf"></i> 易消化</div>
+                            <div class="nutrition-item"><i class="fas fa-carrot"></i> 富含维生素A</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 午餐 -->
+            <div class="meal-card">
+                <div class="meal-header">
+                    <h2 class="meal-title">午餐</h2>
+                    <div class="meal-time">12:00-13:00</div>
+                </div>
+                <div class="meal-content">
+                    <div class="dish-card">
+                        <div class="dish-info">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <h3 class="dish-name">紫薯米饭</h3>
+                                <a href="https://www.xiachufang.com/search/?keyword=%E7%B4%AB%E8%96%AF%E7%B1%B3%E9%A5%AD&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                            <p class="dish-desc">紫薯天然甜味，富含膳食纤维，有助于控制血糖。</p>
+                            
+                        </div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-info">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <h3 class="dish-name">清蒸鲈鱼</h3>
+                                <a href="https://www.xiachufang.com/search/?keyword=%E6%B8%85%E8%92%B8%E9%B2%88%E9%B1%BC&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                            <p class="dish-desc">优质蛋白质来源，低脂易消化，富含Omega-3脂肪酸。</p>
+                            
+                        </div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-info">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <h3 class="dish-name">番茄牛腩</h3>
+                                <a href="https://www.xiachufang.com/search/?keyword=%E7%95%AA%E8%8C%84%E7%89%9B%E8%85%A9&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                            <p class="dish-desc">优质蛋白质来源，富含铁。</p>
+                            
+                        </div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-info">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <h3 class="dish-name">蒜蓉西兰花</h3>
+                                <a href="https://www.xiachufang.com/search/?keyword=%E8%92%9C%E8%93%89%E8%A5%BF%E5%85%B0%E8%8A%B1&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                            <p class="dish-desc">富含维生素C和叶酸，有助于铁质吸收，适合孕妇食用。</p>
+                            
+                        </div>
+                    </div>
+                    <div class="nutrition-info">
+                        <h4 class="nutrition-title">营养亮点</h4>
+                        <div class="nutrition-list">
+                            <div class="nutrition-item"><i class="fas fa-dumbbell"></i> 优质蛋白</div>
+                            <div class="nutrition-item"><i class="fas fa-brain"></i> 促进大脑发育</div>
+                            <div class="nutrition-item"><i class="fas fa-seedling"></i> 丰富膳食纤维</div>
+                            <div class="nutrition-item"><i class="fas fa-virus"></i> 增强免疫力</div>
+                            <div class="nutrition-item"><i class="fas fa-heartbeat"></i> 胆囊友好</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 晚餐 -->
+            <div class="meal-card">
+                <div class="meal-header">
+                    <h2 class="meal-title">晚餐</h2>
+                    <div class="meal-time">19:00-19:30</div>
+                </div>
+                <div class="meal-content">
+                    <div class="dish-card">
+                        <div class="dish-info">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <h3 class="dish-name">小米南瓜粥</h3>
+                                <a href="https://www.xiachufang.com/search/?keyword=%E5%B0%8F%E7%B1%B3%E5%8D%97%E7%93%9C%E7%B2%A5&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                            <p class="dish-desc">温和养胃，易于消化吸收，适合晚餐食用。</p>
+                            
+                        </div>
+                    </div>
+                    <div class="dish-card">
+                        <div class="dish-info">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <h3 class="dish-name">白灼秋葵</h3>
+                                <a href="https://www.xiachufang.com/search/?keyword=%E7%99%BD%E7%81%BC%E7%A7%8B%E8%91%B5&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                            <p class="dish-desc">低热量，富含微量营养素。</p>
+                            
+                        </div>
+                    </div>
+                    <div class="nutrition-info">
+                        <h4 class="nutrition-title">营养亮点</h4>
+                        <div class="nutrition-list">
+                            <div class="nutrition-item"><i class="fas fa-moon"></i> 助眠安神</div>
+                            <div class="nutrition-item"><i class="fas fa-stomach"></i> 肠胃友好</div>
+                            <div class="nutrition-item"><i class="fas fa-weight"></i> 低热量</div>
+                            <div class="nutrition-item"><i class="fas fa-water"></i> 补充水分</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <a href="#top" style="color: var(--primary-color); text-decoration: none;">回到顶部</a>
+    </footer>
+
+</body>
+</html>
