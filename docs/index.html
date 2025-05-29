@@ -466,24 +466,36 @@
                 <div class="dish-card">
                     <div class="dish-info">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
-                            <h3 class="dish-name">清炒西葫芦</h3>
+                            <h3 class="dish-name">爆炒黄鳝</h3>
                             
-                            <a href="https://www.xiachufang.com/search/?keyword=%E6%B8%85%E7%82%92%E8%A5%BF%E8%91%AB%E8%8A%A6&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            <a href="https://www.xiachufang.com/search/?keyword=%E7%88%86%E7%82%92%E9%BB%84%E9%B3%9D&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
                                                         
                         </div>
-                        <p class="dish-desc">西葫芦清爽可口</p>
+                        <p class="dish-desc">清淡可口</p>
                     </div>
                 </div>
                 
                 <div class="dish-card">
                     <div class="dish-info">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
-                            <h3 class="dish-name">菠菜豆腐汤</h3>
+                            <h3 class="dish-name">馒头</h3>
                             
-                            <a href="https://www.xiachufang.com/search/?keyword=%E8%8F%A0%E8%8F%9C%E8%B1%86%E8%85%90%E6%B1%A4&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            <a href="https://www.xiachufang.com/search/?keyword=%E9%A6%92%E5%A4%B4&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
                                                         
                         </div>
-                        <p class="dish-desc">豆腐嫩滑，菠菜鲜嫩</p>
+                        <p class="dish-desc">主食</p>
+                    </div>
+                </div>
+                
+                <div class="dish-card">
+                    <div class="dish-info">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <h3 class="dish-name">酸奶</h3>
+                            
+                            <a href="https://www.xiachufang.com/search/?keyword=%E9%85%B8%E5%A5%B6&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                                                        
+                        </div>
+                        <p class="dish-desc">帮助消化</p>
                     </div>
                 </div>
                 
@@ -526,9 +538,23 @@
         const [y, m, d] = str.split('-').map(Number);
         return new Date(y, m - 1, d);
     }
+
+    function getUrlParam(param) {
+        const search = window.location.search || window.location.hash.split('?')[1] || '';
+        const params = new URLSearchParams(search);
+        return params.get(param);
+    }
+    
     function initDatePicker() {
         const datePicker = document.getElementById('datePicker');
-        const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+        let today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+
+        // Check if there's a date in the URL
+        const urlDate = getUrlParam('date');
+        if (urlDate) {
+            today = urlDate;
+        }
+
         let lastValidDate;
 
         if (!minDate || !maxDate) {
@@ -539,7 +565,6 @@
             const max = parseDate(maxDate);
             const selected = parseDate(today);
 
-            // Set default based on valid range
             if (selected >= min && selected <= max) {
                 lastValidDate = today;
             } else if (selected < min) {
@@ -552,11 +577,11 @@
         datePicker.value = lastValidDate;
 
         datePicker.addEventListener('change', function () {
-            const selectedDate = this.value; // YYYY-MM-DD
+            const selectedDate = this.value;
 
             if (!minDate || !maxDate) {
                 alert("日期范围尚未加载，请稍后再试。");
-                this.value = lastValidDate; // 恢复上次有效值
+                this.value = lastValidDate;
                 return;
             }
 
@@ -566,15 +591,14 @@
 
             if (selected < min || selected > max) {
                 alert("该日期不在有效范围内，请选择其他日期。");
-                this.value = lastValidDate; // 回退到上次有效值
+                this.value = lastValidDate;
                 return;
             }
 
-            lastValidDate = selectedDate; // 更新最后有效值
-            window.location.href = selectedDate + ".html";
+            lastValidDate = selectedDate;
+            window.location.href = `${selectedDate}.html`; // ✅ 跳转到具体日期页面
         });
     }
-
     // 启动流程
     loadDateRange().then(initDatePicker);
 </script>

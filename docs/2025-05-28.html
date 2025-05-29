@@ -538,6 +538,12 @@
         const [y, m, d] = str.split('-').map(Number);
         return new Date(y, m - 1, d);
     }
+
+    function getUrlParam(param) {
+        const search = window.location.search || window.location.hash.split('?')[1] || '';
+        const params = new URLSearchParams(search);
+        return params.get(param);
+    }
     
     function initDatePicker() {
         const datePicker = document.getElementById('datePicker');
@@ -590,10 +596,9 @@
             }
 
             lastValidDate = selectedDate;
-            window.location.href = `?date=${selectedDate}`; // Update URL with selected date
+            window.location.href = `${selectedDate}.html`; // ✅ 跳转到具体日期页面
         });
     }
-
     // 启动流程
     loadDateRange().then(initDatePicker);
 </script>
