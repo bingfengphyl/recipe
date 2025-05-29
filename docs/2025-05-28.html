@@ -486,6 +486,22 @@
 </html>
 
 <script>
+    let minDate = null;
+    let maxDate = null;
+
+    // 加载 dates.json 获取日期范围
+    fetch('/docs/dates.json')
+        .then(response => response.json())
+        .then(data => {
+            minDate = data.minDate;
+            maxDate = data.maxDate;
+        })
+        .catch(err => {
+            console.error('无法加载日期数据:', err);
+            // fallback: 手动设置默认值或提示错误
+            minDate = "2025-01-01";
+            maxDate = "2025-12-31";
+        });
     const datePicker = document.getElementById('datePicker');
     const today = new Date().toISOString().split('T')[0]; // 获取今天日期 YYYY-MM-DD
     // 设置默认值（优先使用 Jinja 提供的日期，否则用今天）
@@ -493,6 +509,16 @@
 
     datePicker.addEventListener('change', function () {
         const selectedDate = this.value; // YYYY-MM-DD
+
+        if (!minDate || !maxDate) {
+            alert("日期范围尚未加载，请稍后再试。");
+            return;
+        }
+
+        if (selectedDate < minDate || selectedDate > maxDate) {
+            alert("该日期不在有效范围内，请选择其他日期。");
+            return;
+        }
         window.location.href = selectedDate + ".html"; // 如：2025-06-03.html
     });
 </script>
