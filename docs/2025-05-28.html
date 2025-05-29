@@ -490,7 +490,7 @@
     let maxDate = null;
 
     // 先加载 dates.json
-    fetch('/docs/dates.json')
+    fetch('/recipe/docs/dates.json')
         .then(response => {
             if (!response.ok) throw new Error("JSON 加载失败");
             return response.json();
