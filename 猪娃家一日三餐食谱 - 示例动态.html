@@ -481,7 +481,14 @@
     
     function initDatePicker() {
         const datePicker = document.getElementById('datePicker');
-        const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+        let today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+
+        // Check if there's a date in the URL
+        const urlDate = getUrlParam('date');
+        if (urlDate) {
+            today = urlDate;
+        }
+
         let lastValidDate;
 
         if (!minDate || !maxDate) {
@@ -492,7 +499,6 @@
             const max = parseDate(maxDate);
             const selected = parseDate(today);
 
-            // Set default based on valid range
             if (selected >= min && selected <= max) {
                 lastValidDate = today;
             } else if (selected < min) {
@@ -505,11 +511,11 @@
         datePicker.value = lastValidDate;
 
         datePicker.addEventListener('change', function () {
-            const selectedDate = this.value; // YYYY-MM-DD
+            const selectedDate = this.value;
 
             if (!minDate || !maxDate) {
                 alert("日期范围尚未加载，请稍后再试。");
-                this.value = lastValidDate; // 恢复上次有效值
+                this.value = lastValidDate;
                 return;
             }
 
@@ -519,12 +525,12 @@
 
             if (selected < min || selected > max) {
                 alert("该日期不在有效范围内，请选择其他日期。");
-                this.value = lastValidDate; // 回退到上次有效值
+                this.value = lastValidDate;
                 return;
             }
 
-            lastValidDate = selectedDate; // 更新最后有效值
-            window.location.href = selectedDate + ".html";
+            lastValidDate = selectedDate;
+            window.location.href = `?date=${selectedDate}`; // Update URL with selected date
         });
     }
 
