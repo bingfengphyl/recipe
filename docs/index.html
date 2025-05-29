@@ -385,7 +385,9 @@
                     <div class="dish-info">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <h3 class="dish-name">山药面糊</h3>
+                            
                             <a href="https://www.xiachufang.com/search/?keyword=%E5%B1%B1%E8%8D%AF%E7%B3%8A&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            
                         </div>
                         <p class="dish-desc">温和滋补，适合孕妇和肠胃敏感人群，富含膳食纤维和铁质</p>
                     </div>
@@ -395,7 +397,9 @@
                     <div class="dish-info">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <h3 class="dish-name">清炒茼蒿</h3>
+                            
                             <a href="https://www.xiachufang.com/search/?keyword=%E6%B8%85%E7%82%92%E8%8C%BC%E8%92%BF&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            
                         </div>
                         <p class="dish-desc">炒出来的茼蒿像玉一般晶莹翠绿</p>
                     </div>
@@ -416,7 +420,9 @@
                     <div class="dish-info">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <h3 class="dish-name">红烧鸡翅</h3>
+                            
                             <a href="https://www.xiachufang.com/search/?keyword=%E7%BA%A2%E7%83%A7%E9%B8%A1%E7%BF%85&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            
                         </div>
                         <p class="dish-desc">鸡翅皮糯肉嫩，香味四溢</p>
                     </div>
@@ -426,7 +432,9 @@
                     <div class="dish-info">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <h3 class="dish-name">清炒冬瓜</h3>
+                            
                             <a href="https://www.xiachufang.com/search/?keyword=%E6%B8%85%E7%82%92%E5%86%AC%E7%93%9C&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            
                         </div>
                         <p class="dish-desc">冬瓜切片少油快炒，加蒜末提香，清爽可口。</p>
                     </div>
@@ -436,7 +444,9 @@
                     <div class="dish-info">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <h3 class="dish-name">凉拌黄瓜</h3>
+                            
                             <a href="https://www.xiachufang.com/search/?keyword=%E5%87%89%E6%8B%8C%E9%BB%84%E7%93%9C&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            
                         </div>
                         <p class="dish-desc">黄瓜拍碎切段，配生抽、醋等拌匀，脆爽开胃。</p>
                     </div>
@@ -457,7 +467,9 @@
                     <div class="dish-info">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <h3 class="dish-name">清炒西葫芦</h3>
+                            
                             <a href="https://www.xiachufang.com/search/?keyword=%E6%B8%85%E7%82%92%E8%A5%BF%E8%91%AB%E8%8A%A6&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                                                        
                         </div>
                         <p class="dish-desc">西葫芦清爽可口</p>
                     </div>
@@ -467,7 +479,9 @@
                     <div class="dish-info">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <h3 class="dish-name">菠菜豆腐汤</h3>
+                            
                             <a href="https://www.xiachufang.com/search/?keyword=%E8%8F%A0%E8%8F%9C%E8%B1%86%E8%85%90%E6%B1%A4&cat=1001" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                                                        
                         </div>
                         <p class="dish-desc">豆腐嫩滑，菠菜鲜嫩</p>
                     </div>
@@ -486,15 +500,62 @@
 </html>
 
 <script>
-    const datePicker = document.getElementById('datePicker');
-    const today = new Date().toISOString().split('T')[0]; // 获取今天日期 YYYY-MM-DD
-    // 设置默认值（优先使用 Jinja 提供的日期，否则用今天）
-    datePicker.value = "2025-05-28";
+    let minDate = null;
+    let maxDate = null;
 
-    datePicker.addEventListener('change', function () {
-        const selectedDate = this.value; // YYYY-MM-DD
-        window.location.href = selectedDate + ".html"; // 如：2025-06-03.html
-    });
+    // 先加载 dates.json
+    fetch('dates.json')
+        .then(response => {
+            if (!response.ok) throw new Error("JSON 加载失败");
+            return response.json();
+        })
+        .then(data => {
+            minDate = data.minDate;
+            maxDate = data.maxDate;
+            console.log("📅 日期范围已加载:", { minDate, maxDate });
+            initDatePicker(); // 成功加载后再绑定事件
+        })
+        .catch(err => {
+            console.error("❌ 加载 dates.json 失败:", err);
+            minDate = "2025-01-01";
+            maxDate = "2025-12-31";
+            initDatePicker(); // 使用默认值继续执行
+        });
 
-    
+    function parseDate(str) {
+        const [y, m, d] = str.split('-').map(Number);
+        return new Date(y, m - 1, d);
+    }
+    function initDatePicker() {
+        const datePicker = document.getElementById('datePicker');
+        const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+        let lastValidDate = "2025-05-28"; // 使用变量保存上次有效值
+        datePicker.value = lastValidDate;
+
+        datePicker.addEventListener('change', function () {
+            const selectedDate = this.value; // YYYY-MM-DD
+
+            if (!minDate || !maxDate) {
+                alert("日期范围尚未加载，请稍后再试。");
+                this.value = lastValidDate; // 恢复上次有效值
+                return;
+            }
+
+            const selected = parseDate(selectedDate);
+            const min = parseDate(minDate);
+            const max = parseDate(maxDate);
+
+            if (selected < min || selected > max) {
+                alert("该日期不在有效范围内，请选择其他日期。");
+                this.value = lastValidDate; // 回退到上次有效值
+                return;
+            }
+
+            lastValidDate = selectedDate; // 更新最后有效值
+            window.location.href = selectedDate + ".html";
+        });
+    }
+
+    // 启动流程
+    loadDateRange().then(initDatePicker);
 </script>

@@ -478,24 +478,33 @@
         const [y, m, d] = str.split('-').map(Number);
         return new Date(y, m - 1, d);
     }
+    
     function initDatePicker() {
         const datePicker = document.getElementById('datePicker');
         const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-        datePicker.value = "{{ date|format_date|default(today) }}";
+        let lastValidDate = "2025-05-28"; // 使用变量保存上次有效值
+        datePicker.value = lastValidDate;
 
         datePicker.addEventListener('change', function () {
             const selectedDate = this.value; // YYYY-MM-DD
 
             if (!minDate || !maxDate) {
                 alert("日期范围尚未加载，请稍后再试。");
+                this.value = lastValidDate; // 恢复上次有效值
                 return;
             }
 
-            if (parseDate(selectedDate) < parseDate(minDate) || parseDate(selectedDate) > parseDate(maxDate)) {
+            const selected = parseDate(selectedDate);
+            const min = parseDate(minDate);
+            const max = parseDate(maxDate);
+
+            if (selected < min || selected > max) {
                 alert("该日期不在有效范围内，请选择其他日期。");
+                this.value = lastValidDate; // 回退到上次有效值
                 return;
             }
 
+            lastValidDate = selectedDate; // 更新最后有效值
             window.location.href = selectedDate + ".html";
         });
     }
