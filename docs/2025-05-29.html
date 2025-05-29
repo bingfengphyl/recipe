@@ -547,9 +547,8 @@
     
     function initDatePicker() {
         const datePicker = document.getElementById('datePicker');
-        let today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+        let today = new Date().toISOString().split('T')[0]; // 默认为今天
 
-        // Check if there's a date in the URL
         const urlDate = getUrlParam('date');
         if (urlDate) {
             today = urlDate;
@@ -559,7 +558,7 @@
 
         if (!minDate || !maxDate) {
             console.warn("⚠️ 日期范围未加载，使用默认值");
-            lastValidDate = "2025-05-28"; // Fallback
+            lastValidDate = "2025-05-28";
         } else {
             const min = parseDate(minDate);
             const max = parseDate(maxDate);
@@ -574,7 +573,7 @@
             }
         }
 
-        datePicker.value = lastValidDate;
+        datePicker.value = lastValidDate; // ✅ 正确设置日期框的值
 
         datePicker.addEventListener('change', function () {
             const selectedDate = this.value;
@@ -596,9 +595,9 @@
             }
 
             lastValidDate = selectedDate;
-            window.location.href = `${selectedDate}.html`; // ✅ 跳转到具体日期页面
+
+            // ✅ 跳转时带上 ?date=xxx 查询参数，便于下个页面识别
+            window.location.href = `${selectedDate}.html?date=${selectedDate}`;
         });
     }
-    // 启动流程
-    loadDateRange().then(initDatePicker);
 </script>
