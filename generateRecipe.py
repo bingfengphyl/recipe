@@ -2,6 +2,7 @@ import pandas as pd
 import os
 from datetime import datetime, timedelta
 from jinja2 import Environment, FileSystemLoader
+import json
 
 
 def excel_date_to_string(serial_date):
@@ -80,7 +81,17 @@ for date, group in grouped:
         f.write(rendered_html)
 
     print(f"已生成: {output_file}")
-    
+
+all_dates = sorted(df['日期'].unique())
+# 将日期转换为字符串格式 YYYY-MM-DD
+formatted_dates = [excel_date_to_string(date).replace('年', '-').replace('月', '-').replace('日', '') for date in all_dates]
+ 
+with open(os.path.join(output_dir, 'dates.json'), 'w', encoding='utf-8') as f:
+    json.dump({
+        "dates": formatted_dates,
+        "minDate": formatted_dates[0],
+        "maxDate": formatted_dates[-1]
+    }, f, ensure_ascii=False, indent=2)   
 # if __name__ == '__main__':
 #     template_path = r'D:\02github\practice-demo\20250528_HTML\猪娃家一日三餐食谱 - 示例动态.html'
 #     if not os.path.exists(template_path):
