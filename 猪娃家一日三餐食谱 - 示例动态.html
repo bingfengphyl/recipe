@@ -482,7 +482,26 @@
     function initDatePicker() {
         const datePicker = document.getElementById('datePicker');
         const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-        let lastValidDate = "2025-05-28"; // 使用变量保存上次有效值
+        let lastValidDate;
+
+        if (!minDate || !maxDate) {
+            console.warn("⚠️ 日期范围未加载，使用默认值");
+            lastValidDate = "2025-05-28"; // Fallback
+        } else {
+            const min = parseDate(minDate);
+            const max = parseDate(maxDate);
+            const selected = parseDate(today);
+
+            // Set default based on valid range
+            if (selected >= min && selected <= max) {
+                lastValidDate = today;
+            } else if (selected < min) {
+                lastValidDate = minDate;
+            } else {
+                lastValidDate = maxDate;
+            }
+        }
+
         datePicker.value = lastValidDate;
 
         datePicker.addEventListener('change', function () {
