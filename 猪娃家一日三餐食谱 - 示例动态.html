@@ -449,36 +449,51 @@
     let minDate = null;
     let maxDate = null;
 
-    // 加载 dates.json 获取日期范围
+    // 先加载 dates.json
     fetch('/docs/dates.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error("JSON 加载失败");
+            return response.json();
+        })
         .then(data => {
             minDate = data.minDate;
             maxDate = data.maxDate;
+            console.log("📅 日期范围已加载:", { minDate, maxDate });
+            initDatePicker(); // 成功加载后再绑定事件
         })
         .catch(err => {
-            console.error('无法加载日期数据:', err);
-            // fallback: 手动设置默认值或提示错误
+            console.error("❌ 加载 dates.json 失败:", err);
             minDate = "2025-01-01";
             maxDate = "2025-12-31";
+            initDatePicker(); // 使用默认值继续执行
         });
-    const datePicker = document.getElementById('datePicker');
-    const today = new Date().toISOString().split('T')[0]; // 获取今天日期 YYYY-MM-DD
-    // 设置默认值（优先使用 Jinja 提供的日期，否则用今天）
-    datePicker.value = "{{ date|format_date|default(today) }}";
 
-    datePicker.addEventListener('change', function () {
-        const selectedDate = this.value; // YYYY-MM-DD
+    function parseDate(str) {
+        const [y, m, d] = str.split('-').map(Number);
+        return new Date(y, m - 1, d);
+    }
+    function initDatePicker() {
+        const datePicker = document.getElementById('datePicker');
+        const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+        datePicker.value = "{{ date|format_date|default(today) }}";
 
-        if (!minDate || !maxDate) {
-            alert("日期范围尚未加载，请稍后再试。");
-            return;
-        }
+        datePicker.addEventListener('change', function () {
+            const selectedDate = this.value; // YYYY-MM-DD
 
-        if (selectedDate < minDate || selectedDate > maxDate) {
-            alert("该日期不在有效范围内，请选择其他日期。");
-            return;
-        }
-        window.location.href = selectedDate + ".html"; // 如：2025-06-03.html
-    });
+            if (!minDate || !maxDate) {
+                alert("日期范围尚未加载，请稍后再试。");
+                return;
+            }
+
+            if (parseDate(selectedDate) < parseDate(minDate) || parseDate(selectedDate) > parseDate(maxDate)) {
+                alert("该日期不在有效范围内，请选择其他日期。");
+                return;
+            }
+
+            window.location.href = selectedDate + ".html";
+        });
+    }
+
+    // 启动流程
+    loadDateRange().then(initDatePicker);
 </script>
