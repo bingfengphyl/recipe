@@ -56,10 +56,13 @@ for date, group in grouped:
 
     for _, row in group.iterrows():
         meal_type = row['早中晚餐别']
+        link = row.get('菜谱链接', '')
+        if pd.isna(link) or str(link).strip().lower() in ['nan', 'none']:
+            link = ''
         dish = {
             'name': row['菜谱名称'],
             'desc': row.get('菜谱描述', ''),
-            'link': row.get('菜谱链接', '#'),
+            'link': link,
         }
         meals[meal_type].append(dish)
 

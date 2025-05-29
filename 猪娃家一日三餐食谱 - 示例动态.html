@@ -385,7 +385,9 @@
                     <div class="dish-info">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <h3 class="dish-name">{{ dish.name }}</h3>
+                            {% if dish.link and dish.link != "nan" and dish.link != "" %}
                             <a href="{{ dish.link }}" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            {% endif %}
                         </div>
                         <p class="dish-desc">{{ dish.desc }}</p>
                     </div>
@@ -406,7 +408,9 @@
                     <div class="dish-info">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <h3 class="dish-name">{{ dish.name }}</h3>
+                            {% if dish.link and dish.link != "nan" and dish.link != "" %}
                             <a href="{{ dish.link }}" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            {% endif %}
                         </div>
                         <p class="dish-desc">{{ dish.desc }}</p>
                     </div>
@@ -427,7 +431,9 @@
                     <div class="dish-info">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <h3 class="dish-name">{{ dish.name }}</h3>
+                            {% if dish.link and dish.link != "nan" and dish.link != "" %}
                             <a href="{{ dish.link }}" class="dish-link" target="_blank">查看食谱 <i class="fas fa-external-link-alt"></i></a>
+                            {% endif %}                            
                         </div>
                         <p class="dish-desc">{{ dish.desc }}</p>
                     </div>
