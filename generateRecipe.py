@@ -40,7 +40,7 @@ output_dir = os.path.join(template_dir, 'docs')
 os.makedirs(output_dir, exist_ok=True)
 
 # 读取 Excel 数据
-excel_path = r'D:\02github\recipe\\猪娃家的食谱记录.xlsx'
+excel_path = r'D:\02github\recipe\\食谱记录.xlsx'
 df = pd.read_excel(excel_path, sheet_name='Sheet1')  # 假设数据在 Sheet1 中
 
 # 按日期分组
